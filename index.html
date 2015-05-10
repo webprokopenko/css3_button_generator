@@ -39,14 +39,25 @@
                 </div>   
               </div>
           </div>
+          <h3 class="text-center">Color</h3>
+          <div class="input-group">
+                <div class="input-group-addon">Background</div>
+                  <input type="text" class="form-control color" id="bg-color" value="#CCCCCC">  
+          </div>   
+          <div class="input-group">
+                <div class="input-group-addon">Border</div>
+                  <input type="text" class="form-control color" id="border-color" value="#777777">  
+          </div>   
         </div>
 
         <div class="col-md-4 well">
           <h3 class="text-center">Result</h3>
+          <div class="crate"></div>
           
         </div>   
-        <div class="col-md-4 well">
+        <div class="col-md-4 well text-center">
           <h3 class="text-center">Your CSS</h3>
+          <textarea id="code-result" cols="40" rows="7"></textarea>
         </div>   
       </div>
     </div>
@@ -57,7 +68,7 @@
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.js"><\/script>')</script>
 
         <script src="js/vendor/bootstrap.min.js"></script>
-
+        <script type="text/javascript" src="js/jscolor/jscolor.js"></script>
         <script src="js/main.js"></script>
 
     </body>
