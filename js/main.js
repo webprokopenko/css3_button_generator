@@ -1,81 +1,93 @@
 (function(){
-	var increaseRad = $('#increase-radius'),
-		reduseRad = $('#reduce-radius'),
-		create = $('.crate'),
-		maxRadius = 20,
-		minRadius = 0,
-		bgColorInput = $('#bg-color');
-		brColorInput = $('#border-color'),
-		codeResultArea = $('#code-result');
 
-	increaseRad.on('click', function(){
-		var currentRadius = create.css('border-radius'),
+	var app = {
+		initialize: function(){
+			this.setUpListenners();
+			this.updateResult();
+		},
+		setUpListenners: function(){
+			$('#increase-radius').on('click', $.proxy(this.increaseRadius, this));
+			$('#reduce-radius').on('click', $.proxy(this.reduceRadius, this));
+
+			$('#bg-color').on('change', $.proxy(this.bgChangeColor, this));
+			$('#border-color').on('change', $.proxy(this.brChangeColor, this));
+
+
+		},
+		bgChangeColor: function(){
+			var newColor = $('#bg-color').val();
+			this.create.css({
+				'background-color' :  '#' + newColor
+			});
+			this.updateResult();
+		},
+		brChangeColor: function(){
+			var newColor = $('#border-color').val();
+			this.create.css({
+				'border-color' :  '#' + newColor
+			});
+			this.updateResult();
+		},
+
+		create : $('.crate'),
+		increaseRad : $('#increase-radius'),
+		reduseRad : $('#reduce-radius'),
+		MAXRADIUS : 20,
+		MINRADIUS : 0,
+
+		increaseRadius: function(){
+			var currentRadius = this.create.css('border-radius'),
 			step = $('#step').val(),
 			newRadius = (parseInt(currentRadius) + parseInt(step));
 
-		if(newRadius > maxRadius){
-			newRadius=maxRadius;
-			$(this).addClass('disabled');
-		}
-		if (newRadius > minRadius) {
-			reduseRad.removeClass('disabled');
-		};
+			if(newRadius > this.MAXRADIUS){
+				newRadius=this.MAXRADIUS;
+				this.increaseRad.addClass('disabled');
+			}
+			if (newRadius > this.MINRADIUS) {
+				this.reduseRad.removeClass('disabled');
+			};
 
-		create.css({
-			'border-radius' : newRadius
-		})
-		updateResult();
-	});
-
-	reduseRad.on('click', function(){
-		var currentRadius = create.css('border-radius'),
+			this.create.css({
+				'border-radius' : newRadius
+			})
+			this.updateResult();
+		},
+		reduceRadius: function(){
+			var currentRadius = this.create.css('border-radius'),
 			step = $('#step').val(),
 			newRadius = (parseInt(currentRadius) - parseInt(step));
 
-		if(newRadius < minRadius){
-			newRadius=minRadius;
-			$(this).addClass('disabled');
-		}
-		if (newRadius < maxRadius) {
-			increaseRad.removeClass('disabled');
-		};
+			if(newRadius < this.MINRADIUS){
+				newRadius=this.MINRADIUS;
+				this.reduseRad.addClass('disabled');
+			}
+			if (newRadius < this.MAXRADIUS) {
+				this.increaseRad.removeClass('disabled');
+			};
 
-		create.css({
-			'border-radius' : newRadius
-		})
-		updateResult();
-	});
+			this.create.css({
+				'border-radius' : newRadius
+			})
+			this.updateResult();
+		},
+		updateResult : function(){
+			var borderRad = this.create.css('border-radius'),
+			bgcolor = this.create.css('background-color'),
+			brcolor = this.create.css('border-color'),
+			codeResultArea = $('#code-result');
 
-	bgColorInput.on('change', function(){
-		var newColor = $(this).val();
-		create.css({
-			'background-color' :  '#' + newColor
-		});
-		updateResult();
-	});
-
-	brColorInput.on('change', function(){
-		var newColor = $(this).val();
-		create.css({
-			'border-color' :  '#' + newColor
-		});
-		updateResult();
-	});
-
-	var updateResult = function(){
-		var borderRad = create.css('border-radius'),
-			bgcolor = create.css('background-color'),
-			brcolor = create.css('border-color');
-			
 		codeResultArea.text(
 			'-moz-border-radius :'+ borderRad + ";\n" +
 			'-webkit-border-radius :'+ borderRad + ";\n" +
 			'border-radius :'+ borderRad + ";\n" +
 			'border-color :'+ brcolor + ";\n" +
 			'background-color :' +bgcolor + ";"
-		)
+			)
+		}
+
 	}
 
-	updateResult();
+	app.initialize();
 
 }());
